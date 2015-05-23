@@ -1,0 +1,11 @@
+@startuml
+abstract class ApplicationState 
+class Menu
+class Jeu
+class SalleDAttente
+
+ApplicationState <|-- Menu
+ApplicationState <|-- Jeu
+ApplicationState <|-- SalleDAttente
+
+@enduml

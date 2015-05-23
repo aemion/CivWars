@@ -1,0 +1,1 @@
+Les diagrammes UML sont réalisés grâce au projet OpenSource PlantUML (fr.plantuml.com)

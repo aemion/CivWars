@@ -1,0 +1,30 @@
+@startuml
+
+class Unite
+class Batiment
+class Recherche
+class Competence
+class Terrain
+
+class "ElementCarte" as Element {
+	+void setPosition(Vecteur)
+	+void deplacerSelon(Vecteur)
+	+void setVitesse(int)
+	-Vecteur position
+	-int vitesse
+	+Vecteur getPosition()
+	+int getVitesse()
+}
+
+interface Activable {
+	{abstract} void activer()
+}
+
+Element <|-- Unite
+Element <|-- Batiment
+Element <|-- Terrain
+
+Activable <|.. Recherche
+Activable <|.. Competence
+
+@enduml

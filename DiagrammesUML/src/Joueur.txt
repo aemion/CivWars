@@ -1,0 +1,15 @@
+@startuml
+
+class Joueur
+class Unite
+class Batiment
+class Competence
+class Recherche
+
+Joueur "1" *-- "*" Unite
+Joueur "1" *-- "*" Recherche
+Joueur "1" *-- "*" Batiment
+Unite "1" *-- "*" Competence
+
+
+@enduml
