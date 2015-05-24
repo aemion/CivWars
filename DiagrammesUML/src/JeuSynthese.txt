@@ -1,9 +1,32 @@
 @startuml
 
+class Simulateur {
+	void charger()
+	void executer()
+}
+
+class Carte {
+	void charger()
+	void ajouterElement(ElementCarte)
+	Collection<ElementCarte> obtenirElements()
+}
+
+class Joueur
+
+Simulateur "1" *-- "1" Carte
+Simulateur "1" *-- "1..6" Joueur
+
 class Unite
 class Batiment
-class Recherche
 class Competence
+class Recherche
+
+Joueur "1" *-- "*" Unite
+Joueur "1" *-- "*" Recherche
+Joueur "1" *-- "*" Batiment
+Unite "1" *-- "*" Competence
+
+
 class Terrain
 
 
@@ -39,12 +62,14 @@ ElementDestructible <|-- Unite
 ElementDestructible <|-- Batiment
 Element <|-- Terrain
 
-Activable <|.. Recherche
-Activable <|.. Competence
+Recherche <|.. Activable
+Competence <|.. Activable
 
 
 Recherche ..|> Achetable
 Unite ..|> Achetable
 Batiment..|> Achetable
+
+Carte "1" *-- "*" Element
 
 @enduml

@@ -1,0 +1,10 @@
+@startuml
+
+class Joueur
+class Carte
+class Terrain
+
+Carte "1" *-- "1..6" Joueur
+Carte "1" *-- "*" Terrain
+
+@enduml
