@@ -1,0 +1,20 @@
+@startuml
+
+class Simulateur
+class Joueur
+class Carte
+class "TuilesTerrain" as Terrain
+class Decor
+class ElementJeu
+class Unite
+class Recherche
+class Competence
+
+ElementJeu <|-- Unite
+ElementJeu <|-- Decor
+
+Carte "1" -- "*" Terrain
+Simulateur "1" -- "1" Carte
+Simulateur "1" -- "*" Joueur
+
+@enduml
