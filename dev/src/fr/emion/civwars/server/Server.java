@@ -5,10 +5,9 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Logger;
@@ -26,11 +25,32 @@ public class Server implements Runnable {
   private LinkedList<ThreadServer> clients;
   private final String LOGGER = "SERVER";
 
-
+  /**
+   * Create the server listening to an automatically allocated port.
+   * @throws IOException If an I/O error occurs when opening the socket.
+   */
   public Server() throws IOException {
+    this(0);
+  }
+  
+  /**
+   * Create the server with the given port. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * @param port The port to listen.
+   * @throws IOException If an I/O error occurs when opening the socket.
+   */
+  public Server(int port) throws IOException {
     running = true;
     clients = new LinkedList<ThreadServer>();
-    server = new ServerSocket(12000);
+    server = new ServerSocket(port);
+  }
+  
+  @Override
+  public void finalize() {
+    try {
+      stop();
+    } catch (IOException e) {
+      Logger.getLogger(LOGGER).severe("The server can't be stopped properly : " + e);
+    }
   }
 
   @Override
@@ -43,7 +63,7 @@ public class Server implements Runnable {
         clients.add(thread);
         new Thread(thread).start();
       } catch (IOException e) {
-        Logger.getLogger(LOGGER).warning("The server can't accept the new connection");
+        Logger.getLogger(LOGGER).warning("The server can't accept the new connection : " + e);
       }
 
     }
@@ -58,10 +78,27 @@ public class Server implements Runnable {
       thread.stop();
       iterator.remove();
     }
+    server.close();
+  }
+  
+  /**
+   * Get the port on which the server is listening.
+   * @return The port on which the server is listening.
+   */
+  public int getListeningPort() {
+    return server.getLocalPort();
+  }
+  
+  /**
+   * Get the IP address of the server.
+   * @return The InetAddress representing the IP address of the server.
+   */
+  public InetAddress getInetAdress() {
+    return server.getInetAddress();
   }
 
   /**
-   * Thread that deals with one client
+   * Thread that deals with one client.
    * @author alexandre
    *
    */
