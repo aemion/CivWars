@@ -14,36 +14,50 @@ import java.util.logging.Logger;
 
 
 /**
- * This server deals with as many clients as you want and work in connected mode
+ * This server deals with as many clients as you want and work in connected mode. It uses the TCP protocol.
  * @author alexandre
  *
  */
-public class Server implements Runnable {
+public class TCPServer implements Runnable {
 
   private ServerSocket server;
   private boolean running;
   private LinkedList<ThreadServer> clients;
-  private final String LOGGER = "SERVER";
+
+  private static final String LOGGER = "SERVER";
+  private static final int MAX_CONNECTIONS = 100;
 
   /**
-   * Create the server listening to an automatically allocated port.
+   * Create the server listening to an automatically allocated port and the loopback address.
    * @throws IOException If an I/O error occurs when opening the socket.
    */
-  public Server() throws IOException {
+  public TCPServer() throws IOException {
     this(0);
   }
-  
+
   /**
-   * Create the server with the given port. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * Create the server with the given port and the loopback address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
    * @param port The port to listen.
    * @throws IOException If an I/O error occurs when opening the socket.
    */
-  public Server(int port) throws IOException {
+  public TCPServer(int port) throws IOException {
+    this(port, InetAddress.getLoopbackAddress());
+  }
+
+  /**
+   * Create the server with the given port and the given IP address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * @param port The port to listen.
+   * @throws IOException If an I/O error occurs when opening the socket.
+   */
+  public TCPServer(int port, InetAddress address) throws IOException {
     running = true;
     clients = new LinkedList<ThreadServer>();
-    server = new ServerSocket(port);
+    server = new ServerSocket(port, MAX_CONNECTIONS, address);
   }
-  
+
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void finalize() {
     try {
@@ -53,6 +67,9 @@ public class Server implements Runnable {
     }
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void run() {
     while(running) {
@@ -70,6 +87,10 @@ public class Server implements Runnable {
 
   }
 
+  /**
+   * Stop the server and disconnect all the clients.
+   * @throws IOException If an error occurs when closing a connection or the server.
+   */
   public void stop() throws IOException {
     running = false;
     Iterator<ThreadServer> iterator = clients.iterator();
@@ -79,8 +100,9 @@ public class Server implements Runnable {
       iterator.remove();
     }
     server.close();
+    server = null;
   }
-  
+
   /**
    * Get the port on which the server is listening.
    * @return The port on which the server is listening.
@@ -88,7 +110,7 @@ public class Server implements Runnable {
   public int getListeningPort() {
     return server.getLocalPort();
   }
-  
+
   /**
    * Get the IP address of the server.
    * @return The InetAddress representing the IP address of the server.
@@ -106,21 +128,41 @@ public class Server implements Runnable {
     private Socket socketClient;
     private boolean running;
 
+    /**
+     * Create the runnable that deals with one client.
+     * @param socketClient The socket of one client.
+     */
     public ThreadServer(Socket socketClient) {
       this.socketClient = socketClient;
       running = true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void run() {
       sendString("Connecting to the server...");
       sendString("Done !");
       while(running) {
-        sendString("You said to the server : " + receiveString());
+        try {
+          if(!socketClient.isInputShutdown())
+            sendString("You said to the server : " + receiveString());
+          else {
+            stop();
+          }
+        } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+        }
       }
 
     }
 
+    /**
+     * Send a string to the client.
+     * @param message the string to send.
+     */
     private void sendString(String message) {
       try {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
@@ -131,6 +173,10 @@ public class Server implements Runnable {
       }
     }
 
+    /**
+     * Receive the string sent by the client.
+     * @return The string received from the client.
+     */
     private String receiveString() {
       String message = null;
       try {
@@ -139,11 +185,15 @@ public class Server implements Runnable {
       } catch (IOException e) {
         Logger.getLogger(LOGGER).info("Can't receive a string from the client : " + e);
       }
-     
+
       return message;
 
     }
 
+    /**
+     * Stop this thread and disconnect the client.
+     * @throws IOException If an error occurs when closing the connection.
+     */
     public void stop() throws IOException {
       socketClient.close();
       clients.remove(this);
