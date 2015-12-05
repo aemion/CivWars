@@ -146,7 +146,7 @@ public class TCPServer implements Runnable {
       sendString("Done !");
       while(running) {
         try {
-          if(!socketClient.isInputShutdown())
+          if(!socketClient.isOutputShutdown())
             sendString("You said to the server : " + receiveString());
           else {
             stop();
