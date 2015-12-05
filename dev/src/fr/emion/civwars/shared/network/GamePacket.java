@@ -38,8 +38,7 @@ public class GamePacket {
   }
   
   public short getGameEntityId() {
-    // TODO : test
-    short geid = (short) (data[3] * 256 + data[4]);
+    short geid = (short) ((((byte)data[3] & 0xFF) << 8) | (byte)data[4] & 0xFF);
     return geid;
   }
   
