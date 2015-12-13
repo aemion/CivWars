@@ -28,7 +28,7 @@ public class TCPServer implements Runnable {
   private static final int MAX_CONNECTIONS = 100;
 
   /**
-   * Create the server listening to an automatically allocated port and the loopback address.
+   * Constructs a server listening to an automatically allocated port and the loopback address.
    * @throws IOException If an I/O error occurs when opening the socket.
    */
   public TCPServer() throws IOException {
@@ -36,7 +36,7 @@ public class TCPServer implements Runnable {
   }
 
   /**
-   * Create the server with the given port and the loopback address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * Constructs a server with the given port and the loopback address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
    * @param port The port to listen.
    * @throws IOException If an I/O error occurs when opening the socket.
    */
@@ -45,8 +45,9 @@ public class TCPServer implements Runnable {
   }
 
   /**
-   * Create the server with the given port and the given IP address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * Constructs a server with the given port and the given IP address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
    * @param port The port to listen.
+   * @param address The address to listen.
    * @throws IOException If an I/O error occurs when opening the socket.
    */
   public TCPServer(int port, InetAddress address) throws IOException {
@@ -88,7 +89,7 @@ public class TCPServer implements Runnable {
   }
 
   /**
-   * Stop the server and disconnect all the clients.
+   * Stops the server and disconnect all the clients.
    * @throws IOException If an error occurs when closing a connection or the server.
    */
   public void stop() throws IOException {
@@ -104,7 +105,7 @@ public class TCPServer implements Runnable {
   }
 
   /**
-   * Get the port on which the server is listening.
+   * Returns the port on which the server is listening.
    * @return The port on which the server is listening.
    */
   public int getListeningPort() {
@@ -112,7 +113,7 @@ public class TCPServer implements Runnable {
   }
 
   /**
-   * Get the IP address of the server.
+   * Returns the IP address of the server.
    * @return The InetAddress representing the IP address of the server.
    */
   public InetAddress getInetAdress() {
@@ -129,7 +130,7 @@ public class TCPServer implements Runnable {
     private boolean running;
 
     /**
-     * Create the runnable that deals with one client.
+     * Constructs the runnable that deals with one client.
      * @param socketClient The socket of one client.
      */
     public ThreadServer(Socket socketClient) {
@@ -160,7 +161,7 @@ public class TCPServer implements Runnable {
     }
 
     /**
-     * Send a string to the client.
+     * Sends a string to the client.
      * @param message the string to send.
      */
     private void sendString(String message) {
@@ -174,7 +175,7 @@ public class TCPServer implements Runnable {
     }
 
     /**
-     * Receive the string sent by the client.
+     * Receives the string sent by the client.
      * @return The string received from the client.
      */
     private String receiveString() {
@@ -191,7 +192,7 @@ public class TCPServer implements Runnable {
     }
 
     /**
-     * Stop this thread and disconnect the client.
+     * Stops this thread and disconnect the client.
      * @throws IOException If an error occurs when closing the connection.
      */
     public void stop() throws IOException {

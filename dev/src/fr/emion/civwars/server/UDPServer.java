@@ -19,7 +19,7 @@ public class UDPServer implements Runnable {
   private boolean running;
   
   /**
-   * Create the server listening to an automatically allocated port and the loopback address.
+   * Constructs the server listening to an automatically allocated port and the loopback address.
    * @throws SocketException If the socket could not be opened, or the socket could not bind to the specified local port.
    */
   public UDPServer() throws SocketException {
@@ -27,7 +27,7 @@ public class UDPServer implements Runnable {
   }
   
   /**
-   * Create the server with the given port and the loopback address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * Constructs the server with the given port and the loopback address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
    * @param port The port to listen.
    * @throws SocketException If the socket could not be opened, or the socket could not bind to the specified local port.
    */
@@ -36,8 +36,9 @@ public class UDPServer implements Runnable {
   }
     
   /**
-   * Create the server with the given port and the given IP address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
+   * Constructs the server with the given port and the given IP address. This port must be a positive valid port number. If given 0, this constructor does the same as the default one (listening to an automatically allocated port).
    * @param port The port to listen.
+   * @param address The address to listen.
    * @throws SocketException If the socket could not be opened, or the socket could not bind to the specified local port.
    */
   public UDPServer(int port, InetAddress address) throws SocketException {
@@ -45,12 +46,15 @@ public class UDPServer implements Runnable {
     running = true;
   }
   
+  /**
+   * {@inheritDoc}
+   */
   public void finalize() {
     stop();
   }
   
   /**
-   * Get the port on which the server is listening.
+   * Returns the port on which the server is listening.
    * @return The port on which the server is listening.
    */
   public int getListeningPort() {
@@ -58,7 +62,7 @@ public class UDPServer implements Runnable {
   }
   
   /**
-   * Get the IP address of the server.
+   * Returns the IP address of the server.
    * @return The InetAddress representing the IP address of the server.
    */
   public InetAddress getInetAdress() {
