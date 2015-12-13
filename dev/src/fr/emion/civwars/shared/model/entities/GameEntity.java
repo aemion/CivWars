@@ -4,6 +4,13 @@ import java.util.LinkedList;
 
 import fr.emion.civwars.shared.model.orders.Order;
 
+
+/**
+ * Abstract class representing any game entity (buildings, units...). 
+ * A GameEntity has a unique id.
+ * A GameEntity can receive orders which are executed from the oldest to the newest. 
+ * @author alexandre
+ */
 public abstract class GameEntity {
   private int id;
   private static int ID_GENERATOR = 0; // Mb a method to change that to sync with the server
