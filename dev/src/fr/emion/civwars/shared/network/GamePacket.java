@@ -48,7 +48,7 @@ public class GamePacket {
   
   protected void setData(byte[] data) throws InvalidGamePacketException {
     if(data.length < HEADER_SIZE)
-      throw new InvalidGamePacketException("The packet is too short (the header and so the packet needs to be at least " + HEADER_SIZE + " bytes)");
+      throw new InvalidGamePacketException("The packet is too short (the header and therefore the packet itself needs to be at least " + HEADER_SIZE + " bytes)");
     this.data = data;
   }
 }
