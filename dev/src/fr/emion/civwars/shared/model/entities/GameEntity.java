@@ -2,6 +2,8 @@ package fr.emion.civwars.shared.model.entities;
 
 import java.util.LinkedList;
 
+import fr.emion.civwars.shared.model.Coords;
+import fr.emion.civwars.shared.model.Targetable;
 import fr.emion.civwars.shared.model.orders.Order;
 
 
@@ -11,17 +13,27 @@ import fr.emion.civwars.shared.model.orders.Order;
  * A GameEntity can receive orders which are executed from the oldest to the newest. 
  * @author alexandre
  */
-public abstract class GameEntity {
+public abstract class GameEntity implements Targetable {
   private int id;
   private static int ID_GENERATOR = 0; // Mb a method to change that to sync with the server
   private LinkedList<Order> orders;
+  private Coords position;
   
   /**
-   * Constructs a game entity with a unique id and no orders.
+   * Constructs a game entity with a unique id, no orders and the default position.
    */
   public GameEntity() {
+    this(new Coords()); 
+  }
+  
+  /**
+   * Constructs a game entity with a unique id, no orders and a given position.
+   * @param position the position of the game entity.
+   */
+  public GameEntity(Coords position) {
     id = ID_GENERATOR++;
-    orders = new LinkedList<Order>(); 
+    orders = new LinkedList<Order>();
+    setPosition(position);
   }
 
   /**
@@ -30,6 +42,22 @@ public abstract class GameEntity {
    */
   public int getId() {
     return id;
+  }
+  
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Coords getCoords() {
+    return position;
+  }
+
+  /**
+   * Sets the position of the game entity.
+   * @param position the new position of the game entity.
+   */
+  public void setPosition(Coords position) {
+    this.position = position;
   }
 
   
@@ -66,4 +94,6 @@ public abstract class GameEntity {
   private Order getCurrentOrder() {
     return orders.peekFirst();
   }
+
+ 
 }
