@@ -103,6 +103,9 @@ public class UDPServer implements Runnable {
     return udpGP;
   }*/
 
+  /**
+   * Stops the server.
+   */
   public void stop() {
     running = false;
     server.close();
