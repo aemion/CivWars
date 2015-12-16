@@ -46,9 +46,19 @@ public abstract class GameEntity implements Targetable {
   
   /**
    * {@inheritDoc}
+   * This is equivalent to {@link #getPosition}.
    */
   @Override
   public Coords getCoords() {
+    return getPosition();
+  }
+  
+
+  /**
+   * Returns the position of the game entity.
+   * @return the position of the game entity.
+   */
+  public Coords getPosition() {
     return position;
   }
 
