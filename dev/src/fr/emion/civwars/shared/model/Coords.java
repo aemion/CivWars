@@ -2,6 +2,11 @@ package fr.emion.civwars.shared.model;
 
 import java.awt.geom.Point2D;
 
+/**
+ * Coords are just a representation of a point in 2 dimensions (x and y).
+ * @author alexandre
+ *
+ */
 @SuppressWarnings("serial")
 public class Coords extends Point2D.Double implements Targetable {
   /**
