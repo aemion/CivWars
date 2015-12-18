@@ -1,8 +1,17 @@
 package fr.emion.civwars.shared.model.orders;
-
+/**
+ * A factory to generate orders from simple Strings (and maybe integers/doubles/Enum). If the input is not correct, always returns an order that does nothing.
+ * Work in progress...
+ * @author alexandre
+ *
+ */
 public class OrderFactory {
   
-  /* Returns always an order that does nothing for now */
+  /**
+   * Create an order from a String. Always returns an order that does nothing for now.
+   * @param orderDescription the string description of the order.
+   * @return the order created.
+   */
   public static Order createOrder(String orderDescription) { 
     if(!isValidOrderString(orderDescription)) {
       return new Order() {
@@ -12,12 +21,12 @@ public class OrderFactory {
       };
     }
     
-    Order o = new Order() {
+    Order order = new Order() {
       public boolean execute() {
         return true;
       }
     };
-    return o;
+    return order;
   }
 
   /* Returns always false for now */

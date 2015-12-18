@@ -2,7 +2,7 @@ package fr.emion.civwars.shared.model;
 
 /**
  * Targetable is something that can be targeted. A targetable can move or not and has necessarily Coords.
- * @see TargetOrder
+ * @see fr.emion.civwars.shared.model.orders.TargetOrder
  * @see Coords
  * @author alexandre
  *

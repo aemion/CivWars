@@ -2,27 +2,26 @@ package fr.emion.civwars.shared.network;
 
 import fr.emion.civwars.shared.CivWarsException;
 
+
+/**
+ * An InvalidGamePacketException is thrown when a GamePacket is not well formed, for instance when its header is not correct.
+ * @author alexandre
+ * @see GamePacket
+ */
 @SuppressWarnings("serial")
 public class InvalidGamePacketException extends CivWarsException {
 
+  /**
+   * {@inheritDoc}
+   */
   public InvalidGamePacketException() {
     super();
   }
 
-  public InvalidGamePacketException(String arg0) {
-    super(arg0);
+  /**
+   * {@inheritDoc}
+   */
+  public InvalidGamePacketException(String message) {
+    super(message);
   }
-
-  public InvalidGamePacketException(Throwable arg0) {
-    super(arg0);
-  }
-
-  public InvalidGamePacketException(String arg0, Throwable arg1) {
-    super(arg0, arg1);
-  }
-
-  public InvalidGamePacketException(String arg0, Throwable arg1, boolean arg2, boolean arg3) {
-    super(arg0, arg1, arg2, arg3);
-  }
-
 }
